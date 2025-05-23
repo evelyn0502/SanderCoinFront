@@ -2,6 +2,7 @@ import React, { useState, useEffect, type FormEvent } from 'react';
 import { transferTokens, getTokenBalance } from '../api/tokenApi';
 import { useAuth } from '../pages/AuthContext';
 import '../styles/Transfer.css';
+import '../styles/shared/FormPST.css';
 
 // Interfaces
 export interface TransferRequest {
@@ -125,7 +126,7 @@ const Transfer: React.FC = () => {
       <h1 className="payment-title">Transferir SanderCoin</h1>
       {errorMessage && <div className="error-message">{errorMessage}</div>}
       {successMessage && <div className="success-message">{successMessage}</div>}
-      <form onSubmit={handleSubmit} className="payment-form">
+      <form onSubmit={handleSubmit} className="form-payment">
         <div className="form-group">
           <label htmlFor="senderId">ID de Remitente</label>
           <input
@@ -137,6 +138,7 @@ const Transfer: React.FC = () => {
             required
             placeholder="Ingrese su ID de usuario"
             disabled={loading || !!currentUser}
+            className="form-input"
           />
           {userBalance !== null && (
             <div className="user-balance">
@@ -155,6 +157,7 @@ const Transfer: React.FC = () => {
             required
             placeholder="Ingrese el ID del destinatario"
             disabled={loading}
+            className="form-input"
           />
         </div>
         <div className="form-group">
@@ -170,6 +173,7 @@ const Transfer: React.FC = () => {
             step="0.0001"
             placeholder="Ingrese la cantidad a transferir"
             disabled={loading}
+            className="form-input"
           />
           {userBalance !== null && formData.amount > 0 && (
             <div className="token-value">

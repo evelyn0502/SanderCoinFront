@@ -3,10 +3,11 @@ import { sellTokens, getTokenBalance } from '../api/tokenApi';
 import { useAuth } from '../pages/AuthContext';
 import type { SellRequest } from '../interfaces/SellRequest';
 import '../styles/Sell.css';
+import '../styles/shared/FormPST.css';
 
 interface SellResponse {
   success: boolean;
-  message?: string;
+  message?: string; 
   transactionId?: string;
   amount?: number;
   newBalance?: number;
@@ -110,7 +111,7 @@ const Sell: React.FC = () => {
       <h1 className="payment-title">Vender SanderCoin</h1>
       {errorMessage && <div className="error-message">{errorMessage}</div>}
       {successMessage && <div className="success-message">{successMessage}</div>}
-      <form onSubmit={handleSubmit} className="payment-form">
+      <form onSubmit={handleSubmit} className="form-payment">
         <div className="form-group">
           <label htmlFor="userId">ID de Usuario</label>
           <input
@@ -122,6 +123,7 @@ const Sell: React.FC = () => {
             required
             placeholder="Ingrese su ID de usuario"
             disabled={loading || !!currentUser}
+            className="form-input"
           />
           {userBalance !== null && (
             <div className="user-balance">
@@ -142,6 +144,7 @@ const Sell: React.FC = () => {
             step="0.0001"
             placeholder="Ingrese la cantidad a vender"
             disabled={loading}
+            className="form-input"
           />
           {userBalance !== null && formData.amount > 0 && (
             <div className="token-value">
