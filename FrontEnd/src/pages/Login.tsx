@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Login.css';
+import '../styles/shared/FeaturesPanel.css';
 
 export default function Login() {
   const [userId, setUserId] = useState('');
@@ -117,28 +118,30 @@ export default function Login() {
           </div>
         </div>
 
-        <div className="features-panel">
-          <div className="feature-item">
-            <div className="feature-icon">🔒</div>
-            <div className="feature-text">
-              <h3>Seguridad Avanzada</h3>
-              <p>Protección de última generación para tus activos digitales</p>
+        <div className="benefits-section">
+            <div className="benefit-card">
+                <div className="feature-icon">🔒</div>
+                <div className="benefit-text">
+                    <h3>Seguridad Avanzada</h3>
+                    <p>Protección de última generación para tus activos digitales</p>
+                </div>
             </div>
-          </div>
-          <div className="feature-item">
-            <div className="feature-icon">📊</div>
-            <div className="feature-text">
-              <h3>Análisis en Tiempo Real</h3>
-              <p>Estadísticas y tendencias actualizadas al instante</p>
+            
+            <div className="benefit-card">
+                <div className="feature-icon">📊</div>
+                <div className="benefit-text">
+                    <h3>Análisis en Tiempo Real</h3>
+                    <p>Estadísticas y tendencias actualizadas al instante</p>
+                </div>
             </div>
-          </div>
-          <div className="feature-item">
-            <div className="feature-icon">💰</div>
-            <div className="feature-text">
-              <h3>Comisiones Mínimas</h3>
-              <p>Transacciones más económicas del mercado</p>
+            
+            <div className="benefit-card">
+                <div className="feature-icon">💰</div>
+                <div className="benefit-text">
+                    <h3>Comisiones Mínimas</h3>
+                    <p>Transacciones más económicas del mercado</p>
+                </div>
             </div>
-          </div>
         </div>
       </div>
     </div>
