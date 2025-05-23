@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/SanderCoin.png';
 import '../styles/MainLayout.css';
+import { useAuth } from '../pages/AuthContext';
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -9,6 +10,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const navigate = useNavigate();
     const location = useLocation();
+    const { currentUser } = useAuth(); 
 
     useEffect(() => {
         const checkAuthStatus = () => {
@@ -120,6 +122,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                     {isAuthenticated ? (
                         <div className="user-menu nav-group">
                             <div className="nav-group-title">
+                                {currentUser?.id && (
+                                    <span className="user-id">👤 {currentUser.id}</span>
+                                )}
                                 Mi Cuenta <span>▾</span>
                             </div>
                             <div className="nav-group-items">

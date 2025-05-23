@@ -19,8 +19,10 @@ const Sell: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [userBalance, setUserBalance] = useState<number | null>(null);
+  const userId = localStorage.getItem('userId');
+
   const [formData, setFormData] = useState<SellRequest>({
-    userId: currentUser?.id || '',
+    userId: userId|| '',
     amount: 0,
   });
 
@@ -113,7 +115,7 @@ const Sell: React.FC = () => {
       {successMessage && <div className="success-message">{successMessage}</div>}
       <form onSubmit={handleSubmit} className="form-payment">
         <div className="form-group">
-          <label htmlFor="userId">ID de Usuario</label>
+          <label htmlFor="userId">Usuario</label>
           <input
             type="text"
             id="userId"
@@ -121,9 +123,9 @@ const Sell: React.FC = () => {
             value={formData.userId}
             onChange={handleChange}
             required
-            placeholder="Ingrese su ID de usuario"
+            placeholder="Ingrese su usuario"
             disabled={loading || !!currentUser}
-            className="form-input"
+            className="form-input" disabled
           />
           {userBalance !== null && (
             <div className="user-balance">

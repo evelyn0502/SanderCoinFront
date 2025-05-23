@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { loginUser } from '../api/userApi';
 import '../styles/Login.css';
 import '../styles/shared/FeaturesPanel.css';
 import '../styles/shared/FormLR.css';
@@ -16,30 +17,18 @@ export default function Login() {
     setLoading(true);
     setError(null);
 
-    try { 
-      if (password === 'admin') {
-        localStorage.setItem('token', 'fake-token-123');
-        localStorage.setItem('userId', userId);
+    try {
+      const response = await loginUser({ userId, password });
+      if (response.data.message === 'Login successful') {
+        localStorage.setItem('userId', response.data.userId);
         localStorage.setItem('isAuthenticated', 'true');
         navigate('/');
       } else {
-        setError('Credenciales incorrectas');
+        setError(response.data.message || 'Credenciales incorrectas');
       }
-    } catch (err: unknown) {
-      if (
-        typeof err === 'object' &&
-        err !== null &&
-        'response' in err &&
-        typeof (err as { response?: { data?: { message?: string } } }).response === 'object'
-      ) {
-        setError(
-          (err as { response?: { data?: { message?: string } } }).response?.data?.message ||
-            'Error al iniciar sesión'
-        );
-      } else {
-        setError('Error al iniciar sesión');
-      }
-      console.error('Error de inicio de sesión:', err);
+    } catch (err: any) {
+      const errorMessage = err?.response?.data?.message || 'Error al iniciar sesión';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -47,6 +36,7 @@ export default function Login() {
 
   return (
     <div className="login-container">
+      {/* Fondo animado */}
       <div className="login-background">
         <div className="gradient-circle circle-1"></div>
         <div className="gradient-circle circle-2"></div>
@@ -68,14 +58,15 @@ export default function Login() {
         </div>
       </div>
 
+      {/* Contenido principal */}
       <div className="login-content">
+        {/* Encabezado */}
         <div className="login-header">
-          <h1 className="login-title">
-            SanderCoin<span className="register-symbol">®</span>
-          </h1>
+          <h1 className="login-title">SanderCoin</h1>
           <p className="login-subtitle">Tu portal a las finanzas del futuro</p>
         </div>
 
+        {/* Tarjeta de login */}
         <div className="login-card">
           <h2>Iniciar Sesión</h2>
           {error && <div className="form-error-message">{error}</div>}
@@ -121,30 +112,29 @@ export default function Login() {
           </div>
         </div>
 
+        {/* Beneficios */}
         <div className="benefits-section">
-            <div className="benefit-card">
-                <div className="feature-icon">🔒</div>
-                <div className="benefit-text">
-                    <h3>Seguridad Avanzada</h3>
-                    <p>Protección de última generación para tus activos digitales</p>
-                </div>
+          <div className="benefit-card">
+            <div className="feature-icon">🔒</div>
+            <div className="benefit-text">
+              <h3>Seguridad Avanzada</h3>
+              <p>Protección de última generación para tus activos digitales</p>
             </div>
-            
-            <div className="benefit-card">
-                <div className="feature-icon">📊</div>
-                <div className="benefit-text">
-                    <h3>Análisis en Tiempo Real</h3>
-                    <p>Estadísticas y tendencias actualizadas al instante</p>
-                </div>
+          </div>
+          <div className="benefit-card">
+            <div className="feature-icon">📊</div>
+            <div className="benefit-text">
+              <h3>Análisis en Tiempo Real</h3>
+              <p>Estadísticas y tendencias actualizadas al instante</p>
             </div>
-            
-            <div className="benefit-card">
-                <div className="feature-icon">💰</div>
-                <div className="benefit-text">
-                    <h3>Comisiones Mínimas</h3>
-                    <p>Transacciones más económicas del mercado</p>
-                </div>
+          </div>
+          <div className="benefit-card">
+            <div className="feature-icon">💰</div>
+            <div className="benefit-text">
+              <h3>Comisiones Mínimas</h3>
+              <p>Transacciones más económicas del mercado</p>
             </div>
+          </div>
         </div>
       </div>
     </div>

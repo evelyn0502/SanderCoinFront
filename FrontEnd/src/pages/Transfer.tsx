@@ -25,8 +25,10 @@ const Transfer: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [userBalance, setUserBalance] = useState<number | null>(null);
+  const userId = localStorage.getItem('userId');
+  
   const [formData, setFormData] = useState<TransferRequest>({
-    senderId: currentUser?.id || '',
+    senderId: userId || '',
     receiverId: '',
     amount: 0,
   });
@@ -128,7 +130,7 @@ const Transfer: React.FC = () => {
       {successMessage && <div className="success-message">{successMessage}</div>}
       <form onSubmit={handleSubmit} className="form-payment">
         <div className="form-group">
-          <label htmlFor="senderId">ID de Remitente</label>
+          <label htmlFor="senderId">Remitente</label>
           <input
             type="text"
             id="senderId"
@@ -136,9 +138,9 @@ const Transfer: React.FC = () => {
             value={formData.senderId}
             onChange={handleChange}
             required
-            placeholder="Ingrese su ID de usuario"
+            placeholder="Ingrese su usuario"
             disabled={loading || !!currentUser}
-            className="form-input"
+            className="form-input" disabled
           />
           {userBalance !== null && (
             <div className="user-balance">
@@ -147,7 +149,7 @@ const Transfer: React.FC = () => {
           )}
         </div>
         <div className="form-group">
-          <label htmlFor="receiverId">ID de Destinatario</label>
+          <label htmlFor="receiverId">Destinatario</label>
           <input
             type="text"
             id="receiverId"
@@ -155,7 +157,7 @@ const Transfer: React.FC = () => {
             value={formData.receiverId}
             onChange={handleChange}
             required
-            placeholder="Ingrese el ID del destinatario"
+            placeholder="Ingrese el usuario del destinatario"
             disabled={loading}
             className="form-input"
           />

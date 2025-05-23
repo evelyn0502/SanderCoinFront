@@ -1,6 +1,6 @@
 import httpClient from './httpClient';
 
-export const loginUser = (data: { email: string; password: string }) =>
+export const loginUser = (data: { userId: string; password: string }) =>
   httpClient.post('/User/login', data);
 
 export const registerUser = (data: { userId: string; email: string }) =>

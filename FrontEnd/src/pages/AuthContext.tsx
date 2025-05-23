@@ -7,7 +7,7 @@ interface AuthContextType {
   currentUser: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (userId: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -33,27 +33,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const checkAuthStatus = async () => {
       const userId = localStorage.getItem('userId');
-      const code = localStorage.getItem('code'); // o como guardes el código
+      const authToken = localStorage.getItem('authToken');
 
-      if (userId && code) {
-      try {
-      const response = await verifyUser({ userId, code });
-          if (response.data.success) {
-            setCurrentUser({
-              id: response.data.userId,
-              username: response.data.username,
-              email: response.data.email,
-              balance: response.data.balance,
-              isVerified: response.data.isVerified,
-              verificationCode: response.data.verificationCode,
-            });
-            setIsAuthenticated(true);
-          } else {
-            localStorage.removeItem('authToken');
-          }
+      if (userId && authToken) {
+        try {
+          setCurrentUser({
+            id: userId,
+            username: userId,
+            email: '', // Si tienes email, guárdalo también
+            balance: 0,
+            isVerified: true,
+            verificationCode: '',
+          });
+          setIsAuthenticated(true);
         } catch (error) {
           console.error('Auth verification error:', error);
           localStorage.removeItem('authToken');
+          localStorage.removeItem('userId');
+          setCurrentUser(null);
+          setIsAuthenticated(false);
         }
       }
       setIsLoading(false);
@@ -62,19 +60,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     checkAuthStatus();
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (userId: string, password: string) => {
     setIsLoading(true);
     try {
-      const response = await loginUser({ email, password });
+      const response = await loginUser({ userId, password });
       if (response.data.success) {
         localStorage.setItem('authToken', response.data.token);
+        localStorage.setItem('userId', response.data.userId);
         setCurrentUser({
           id: response.data.userId,
-          username: response.data.username,
-          email: response.data.email,
-          balance: response.data.balance,
-          isVerified: response.data.isVerified,
-          verificationCode: response.data.verificationCode,
+          username: response.data.username || response.data.userId,
+          email: response.data.email || '',
+          balance: response.data.balance || 0,
+          isVerified: response.data.isVerified ?? true,
+          verificationCode: response.data.verificationCode || '',
         });
         setIsAuthenticated(true);
       } else {
@@ -90,6 +89,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('authToken');
+    localStorage.removeItem('userId');
     setCurrentUser(null);
     setIsAuthenticated(false);
   };

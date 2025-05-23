@@ -11,8 +11,11 @@ const Payment: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [userBalance, setUserBalance] = useState<number | null>(null);
   const [tokenValue, setTokenValue] = useState(0);
+
+  const userId = localStorage.getItem('userId');
+
   const [formData, setFormData] = useState<PaymentFormData>({
-    userId: currentUser?.id || '',
+    userId: userId || '',
     amount: 0,
     creditCardNumber: '',
     expirationDate: '',
@@ -160,9 +163,9 @@ const Payment: React.FC = () => {
       <h1 className="payment-title">Comprar SanderCoin</h1>
       {errorMessage && <div className="error-message">{errorMessage}</div>}
       {successMessage && <div className="success-message">{successMessage}</div>}
-      <form onSubmit={handleSubmit} className="form-payment">
+      <form onSubmit={handleSubmit} className="payment-form">
         <div className="form-group">
-          <label htmlFor="userId">ID de Usuario</label>
+          <label htmlFor="userId">Usuario</label>
           <input
             type="text"
             id="userId"
@@ -170,9 +173,8 @@ const Payment: React.FC = () => {
             value={formData.userId}
             onChange={handleChange}
             required
-            placeholder="Ingrese su ID de usuario"
-            disabled={loading || !!currentUser}
-            className="form-input"
+            placeholder="Ingrese su usuario"
+            disabled={loading || !!currentUser} disabled
           />
           {userBalance !== null && (
             <div className="user-balance">
@@ -193,7 +195,6 @@ const Payment: React.FC = () => {
             step="0.01"
             placeholder="Ingrese la cantidad"
             disabled={loading}
-            className="form-input"
           />
           {formData.amount > 0 && tokenValue > 0 && (
             <div className="token-value">
@@ -213,7 +214,6 @@ const Payment: React.FC = () => {
             placeholder="9999XXXXXXXXXXXX"
             maxLength={16}
             disabled={loading}
-            className="form-input"
           />
           {formData.creditCardNumber && (
             <div className="formatted-card">
@@ -234,7 +234,6 @@ const Payment: React.FC = () => {
               placeholder="MM/YY"
               maxLength={5}
               disabled={loading}
-              className="form-input"
             />
           </div>
           <div className="form-group half-width">
@@ -249,7 +248,6 @@ const Payment: React.FC = () => {
               placeholder="CVV"
               maxLength={4}
               disabled={loading}
-              className="form-input"
             />
           </div>
         </div>
