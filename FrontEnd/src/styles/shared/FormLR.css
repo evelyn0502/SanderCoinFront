@@ -1,0 +1,109 @@
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #e0e0e0;
+    margin-top: 1rem;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.form-input {
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 0.85rem 1rem 0.85rem 2.5rem;
+    font-size: 1rem;
+    color: #eee;
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+    border-color: #5cdd42;
+    box-shadow: 0 0 0 2px rgba(92, 221, 66, 0.25);
+    outline: none;
+}
+
+.form-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.form-button {
+    background: linear-gradient(90deg, #5cdd42, #f4e355);
+    color: #070c14;
+    border: none;
+    border-radius: 12px;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 1rem;
+    display: block;
+    margin: 1rem auto 0 auto; /* Centra el botón horizontalmente */
+}
+
+
+.form-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(92, 221, 66, 0.3);
+}
+
+.form-button:disabled {
+    background: #555;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.form-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #e0e0e0;
+}
+
+.form-link a {
+    color: #5cdd42;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.form-link a:hover {
+    text-decoration: underline;
+}
+
+.form-success-message {
+    background-color: rgba(52, 199, 89, 0.15);
+    border-left: 4px solid #5cdd42;
+    color: #5cdd42;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.form-error-message {
+    background-color: rgba(249, 122, 115, 0.15);
+    border-left: 4px solid #ff4444;
+    color: #ff6b6b;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}

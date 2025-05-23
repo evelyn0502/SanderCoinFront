@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { registerUser, verifyUser } from '../api/userApi';
 import '../styles/Register.css';
 import '../styles/shared/FeaturesPanel.css';
+import '../styles/shared/FormLR.css'; 
 
 export default function Register() {
     const [userId, setUserId] = useState<string>('');
@@ -23,7 +24,7 @@ export default function Register() {
         
         try {
             await registerUser({ userId, email });
-            setSuccess(true);
+            setSuccess(true); 
             setShowVerification(true);
             setRegisteredUserId(userId);
             setUserId('');
@@ -114,13 +115,13 @@ export default function Register() {
                             <h2 className="register-title">Crear una cuenta</h2>
                             
                             {success && (
-                                <div className="success-message">
+                                <div className="form-success-message">
                                     ¡Registro exitoso! Revisa tu correo para verificar tu cuenta.
                                 </div>
                             )}
                             
                             {error && (
-                                <div className="error-message">
+                                <div className="form-error-message">
                                     {error}
                                 </div>
                             )}
@@ -131,6 +132,7 @@ export default function Register() {
                                     <div className="input-wrapper">
                                         <span className="input-icon">👤</span>
                                         <input
+                                            className="form-input"
                                             type="text"
                                             id="userId"
                                             value={userId}
@@ -147,6 +149,7 @@ export default function Register() {
                                     <div className="input-wrapper">
                                         <span className="input-icon">✉️</span>
                                         <input
+                                            className="form-input"
                                             type="email"
                                             id="email"
                                             value={email}
@@ -160,7 +163,7 @@ export default function Register() {
                                 
                                 <button 
                                     type="submit" 
-                                    className="register-button"
+                                    className="form-button"
                                     disabled={loading}
                                 >
                                     {loading ? 'Procesando...' : 'Registrarse'}
@@ -172,13 +175,13 @@ export default function Register() {
                             <h2 className="register-title">Verificar cuenta</h2>
                             
                             {verificationSuccess && (
-                                <div className="success-message">
+                                <div className="form-success-message">
                                     ¡Verificación exitosa! Serás redirigido al inicio de sesión en unos segundos.
                                 </div>
                             )}
                             
                             {error && (
-                                <div className="error-message">
+                                <div className="form-error-message">
                                     {error}
                                 </div>
                             )}
@@ -190,6 +193,7 @@ export default function Register() {
                                         <div className="input-wrapper">
                                             <span className="input-icon">👤</span>
                                             <input
+                                                className="form-input"
                                                 type="text"
                                                 id="userId"
                                                 value={registeredUserId || userId}
@@ -208,6 +212,7 @@ export default function Register() {
                                         <div className="input-wrapper">
                                             <span className="input-icon">🔐</span>
                                             <input
+                                                className="form-input"
                                                 type="text"
                                                 id="verificationCode"
                                                 value={verificationCode}
@@ -221,7 +226,7 @@ export default function Register() {
                                     
                                     <button 
                                         type="submit" 
-                                        className="register-button"
+                                        className="form-button"
                                         disabled={loading}
                                     >
                                         {loading ? 'Verificando...' : 'Verificar Código'}
@@ -240,7 +245,7 @@ export default function Register() {
                         </>
                     )}
                     
-                    <div className="login-link">
+                    <div className="form-link">
                         ¿Ya tienes una cuenta? <Link to="/login">Iniciar Sesión</Link>
                     </div>
                 </div>

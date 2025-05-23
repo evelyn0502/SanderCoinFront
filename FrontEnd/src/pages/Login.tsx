@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Login.css';
 import '../styles/shared/FeaturesPanel.css';
+import '../styles/shared/FormLR.css';
 
 export default function Login() {
   const [userId, setUserId] = useState('');
@@ -15,7 +16,7 @@ export default function Login() {
     setLoading(true);
     setError(null);
 
-    try {
+    try { 
       if (password === 'admin') {
         localStorage.setItem('token', 'fake-token-123');
         localStorage.setItem('userId', userId);
@@ -77,13 +78,14 @@ export default function Login() {
 
         <div className="login-card">
           <h2>Iniciar Sesión</h2>
-          {error && <div className="error-message">{error}</div>}
+          {error && <div className="form-error-message">{error}</div>}
           <form onSubmit={handleSubmit} className="login-form">
             <div className="form-group">
               <label htmlFor="userId">ID de Usuario</label>
               <div className="input-wrapper">
                 <span className="input-icon">👤</span>
                 <input
+                  className="form-input"
                   type="text"
                   id="userId"
                   value={userId}
@@ -99,6 +101,7 @@ export default function Login() {
               <div className="input-wrapper">
                 <span className="input-icon">🔒</span>
                 <input
+                  className="form-input"
                   type="password"
                   id="password"
                   value={password}
@@ -109,11 +112,11 @@ export default function Login() {
                 />
               </div>
             </div>
-            <button type="submit" className="login-button" disabled={loading}>
+            <button type="submit" className="form-button" disabled={loading}>
               {loading ? 'Verificando...' : 'Ingresar'}
             </button>
           </form>
-          <div className="register-link">
+          <div className="form-link">
             ¿No tienes una cuenta? <Link to="/register">Regístrate</Link>
           </div>
         </div>

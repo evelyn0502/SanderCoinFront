@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getBlockchainStatistics } from '../api/blockchainApi';
 import '../styles/Home.css';
 
@@ -17,6 +18,7 @@ const PHRASES = [
 export default function Home() {
   const [stats, setStats] = useState<BlockchainStats | null>(null);
   const [currentPhrase, setCurrentPhrase] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getBlockchainStatistics()
@@ -75,8 +77,13 @@ export default function Home() {
           <h1 className="dynamic-phrase" key={currentPhrase}>
             {PHRASES[currentPhrase]}
           </h1>
-          <p className="subphrase">Descubre el poder de SanderCoin®</p>
-          <button className="cta-button">Explorar</button>
+          <p className="subphrase">Descubre el poder de SanderCoin</p>
+          <button
+          className="cta-button"
+          onClick={() => navigate('/aboutus')} // <-- AGREGA ESTE onClick
+          >
+          Explorar
+          </button>
         </div>
       </section>
 
@@ -121,6 +128,12 @@ export default function Home() {
             <h3>¿Es seguro invertir en SND?</h3>
             <p>
               Como toda criptomoneda, tiene volatilidad, pero nuestra tecnología y equipo garantizan la seguridad de tus activos.
+            </p>
+          </div>
+          <div className="faq-item">
+            <h3>¿Qué es SND?</h3>
+            <p>
+              SND es la abreviación oficial de SanderCoin, nuestra criptomoneda. Al igual que Bitcoin se abrevia como BTC o Ethereum como ETH, hemos adoptado SND como el símbolo ticker de SanderCoin para facilitar su identificación en exchanges, wallets y plataformas de trading.
             </p>
           </div>
         </div>
