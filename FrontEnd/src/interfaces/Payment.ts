@@ -1,4 +1,3 @@
-
 export interface PaymentFormData {
   userId: string;
   amount: number;
@@ -7,9 +6,7 @@ export interface PaymentFormData {
   cvv: string;
 }
 
-export interface PaymentResponse {
-  success: boolean;
-  message?: string;
-  transactionId?: string;
-  amount?: number;
+export interface TokenValue {
+  value: number;
+  timestamp: string;
 }

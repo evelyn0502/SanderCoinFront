@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { registerUser, verifyUser } from '../api/api';
-import '../styles/Register.css';
+import { registerUser, verifyUser } from '../api/userApi';
 import '../styles/Register.css';
 
 export default function Register() {
@@ -28,8 +27,19 @@ export default function Register() {
             setRegisteredUserId(userId);
             setUserId('');
             setEmail('');
-        } catch (err: any) {
-            setError(err.response?.data?.message || 'Error al registrar usuario');
+        } catch (err: unknown) {
+            let message = 'Error al registrar usuario';
+            if (
+                typeof err === 'object' &&
+                err !== null &&
+                'response' in err &&
+                typeof (err as { response?: { data?: { message?: string } } }).response === 'object'
+            ) {
+                message =
+                    (err as { response?: { data?: { message?: string } } }).response?.data?.message ||
+                    message;
+            }
+            setError(message);
             console.error('Error de registro:', err);
         } finally {
             setLoading(false);
@@ -45,12 +55,22 @@ export default function Register() {
             await verifyUser({ userId: registeredUserId || userId, code: verificationCode });
             setVerificationSuccess(true);
             setVerificationCode('');
-            // Redirigir al login después de verificación exitosa
             setTimeout(() => {
                 navigate('/login');
             }, 3000);
-        } catch (err: any) {
-            setError(err.response?.data?.message || 'Error al verificar el código');
+        } catch (err: unknown) {
+            let message = 'Error al verificar el código';
+            if (
+                typeof err === 'object' &&
+                err !== null &&
+                'response' in err &&
+                typeof (err as { response?: { data?: { message?: string } } }).response === 'object'
+            ) {
+                message =
+                    (err as { response?: { data?: { message?: string } } }).response?.data?.message ||
+                    message;
+            }
+            setError(message);
             console.error('Error de verificación:', err);
         } finally {
             setLoading(false);
@@ -59,13 +79,11 @@ export default function Register() {
 
     return (
         <div className="register-container">
-            {/* Efectos de fondo */}
             <div className="register-background">
                 <div className="gradient-circle circle-1"></div>
                 <div className="gradient-circle circle-2"></div>
                 <div className="gradient-circle circle-3"></div>
                 
-                {/* Líneas de conexión animadas */}
                 <div className="connection-lines">
                     {[...Array(10)].map((_, i) => (
                         <div 
