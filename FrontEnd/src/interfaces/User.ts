@@ -1,7 +1,8 @@
 export interface User {
-    id: string;
-    balance: number;
-    email: string;
-    isVerified: boolean;
-    verificationCode?: string;
+  id: string;
+  username: string;
+  email: string;
+  balance: number;
+  isVerified: boolean;
+  verificationCode?: string;
 }

@@ -1,4 +1,4 @@
 export interface SellRequest {
-    senderId: string;
+    userId: string;
     amount: number;
 }

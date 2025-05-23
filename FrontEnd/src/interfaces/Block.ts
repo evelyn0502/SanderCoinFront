@@ -5,6 +5,6 @@ export interface Block {
     previousHash: string;
     hash: string;
     transactions: Transaction[];
-    date: string; // DateOnly del backend
-    time: string; // TimeOnly del backend
+    date: string; 
+    time: string; 
 }

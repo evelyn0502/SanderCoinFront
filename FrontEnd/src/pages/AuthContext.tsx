@@ -1,12 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import { loginUser, verifyUser } from '../api/api';
-
-interface User {
-  id: string;
-  username: string;
-  email?: string;
-}
+import { loginUser, verifyUser } from '../api/userApi';
+import type { User } from '../interfaces/User';
 
 interface AuthContextType {
   currentUser: User | null;
@@ -18,9 +13,9 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
@@ -32,28 +27,28 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Check for stored auth token on mount
   useEffect(() => {
     const checkAuthStatus = async () => {
-      const token = localStorage.getItem('authToken');
-      
-      if (token) {
-        try {
-          // Verify token with backend
-          const response = await verifyUser({ token });
-          
+      const userId = localStorage.getItem('userId');
+      const code = localStorage.getItem('code'); // o como guardes el código
+
+      if (userId && code) {
+      try {
+      const response = await verifyUser({ userId, code });
           if (response.data.success) {
             setCurrentUser({
               id: response.data.userId,
               username: response.data.username,
-              email: response.data.email
+              email: response.data.email,
+              balance: response.data.balance,
+              isVerified: response.data.isVerified,
+              verificationCode: response.data.verificationCode,
             });
             setIsAuthenticated(true);
           } else {
-            // Token invalid, clear storage
             localStorage.removeItem('authToken');
           }
         } catch (error) {
@@ -61,7 +56,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           localStorage.removeItem('authToken');
         }
       }
-      
       setIsLoading(false);
     };
 
@@ -70,21 +64,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
-    
     try {
       const response = await loginUser({ email, password });
-      
       if (response.data.success) {
-        // Save auth token
         localStorage.setItem('authToken', response.data.token);
-        
-        // Set user data
         setCurrentUser({
           id: response.data.userId,
           username: response.data.username,
-          email: response.data.email
+          email: response.data.email,
+          balance: response.data.balance,
+          isVerified: response.data.isVerified,
+          verificationCode: response.data.verificationCode,
         });
-        
         setIsAuthenticated(true);
       } else {
         throw new Error(response.data.message || 'Login failed');
@@ -110,7 +101,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         isAuthenticated,
         isLoading,
         login,
-        logout
+        logout,
       }}
     >
       {children}
