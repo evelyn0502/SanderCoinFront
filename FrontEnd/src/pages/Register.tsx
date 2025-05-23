@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { registerUser, verifyUser } from '../api/userApi';
 import '../styles/Register.css';
+import '../styles/shared/FeaturesPanel.css';
 
 export default function Register() {
     const [userId, setUserId] = useState<string>('');
@@ -103,8 +104,8 @@ export default function Register() {
             
             <div className="register-content">
                 <div className="register-header">
-                    <h1 className="register-headline">Únete a la revolución de las finanzas digitales<span className="register-symbol">®</span></h1>
-                    <p className="register-tagline">Sé parte del futuro con SanderCoin®</p>
+                    <h1 className="register-headline">Únete a la revolución de las finanzas digitales</h1>
+                    <p className="register-tagline">Sé parte del futuro con SanderCoin</p>
                 </div>
                 
                 <div className="register-card">
